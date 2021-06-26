@@ -12,3 +12,6 @@ Building code in Visual Studio. To build the code, you don't need any additional
 - [ ] Working with networks
     - [ ] Tracking Nodes
     - [ ] Stable client
+- [ ] Tracking Nodes
+    - [X] List Ip Adderes
+    - [X] Building the network architecture
