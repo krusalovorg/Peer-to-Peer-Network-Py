@@ -12,21 +12,20 @@ from Server.server import *
 
 ip = []
 
-node = '127.0.0.1', 3030 # Данные об узле
+node = '', 3030 # Данные об узле
 
 # Классы
 
 class Client(object):
-    def __init__(self, ip='138.124.186.33'):
-
+    def __init__(self, ip=''):
+        node = ip, 3030
         # Инициализация сокета
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Создаем сокет
 
         self.sock.bind(('', 0)) # Задаем сокет как клиент
 
-        self.sock.sendto('hello, world'.encode(),node) # Отправление тестового сообщения
-
+        self.sock.sendto(json.dumps({'get': 'ip'}).encode(), node) # Запрашиваем айпи адреса клиентов сети
         self.data, self.addr = self.sock.recvfrom(1024)
 
         self.data = json.loads(self.data.decode())

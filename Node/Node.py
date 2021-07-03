@@ -43,18 +43,19 @@ class Node(object):
             print("Connect:", self.addr)
 
             self.data = json.loads(self.data.decode())
-
-            if self.data["q"] == "node?":
-                self.sock.sendto(json.dumps({'a': '+node'}).encode(), self.addr)
-            else:
-                if len(ip) == 0:
-                    self.sock.sendto(json.dumps({'err': 'ip.0', 'ip': 'null'}).encode(), self.addr)
-                else:
-                    if self.addr not in ip:
-                        self.sock.sendto(json.dumps({'err': 'ip.0', 'ip': ip[len(ip)]}).encode(), self.addr)
+            if self.data.get("q"):
+                if self.data["q"] == "node?":
+                    self.sock.sendto(json.dumps({'a': '+node'}).encode(), self.addr)
+            if self.data.get("get"):
+                if self.data["get"] == "ip":
+                    if len(ip) == 0:
+                        self.sock.sendto(json.dumps({'err': 'ip.0', 'ip': 'null'}).encode(), self.addr)
                     else:
-                        self.sock.sendto(json.dumps({'err': 'ip.1', 'ip': 'err'}).encode(), self.addr)
-                if self.addr not in ip:
-                    ip.append(self.addr[0])
-                    print(ip)
-                user_thread = _thread.start_new_thread(self.user, ())
+                        if self.addr not in ip:
+                            self.sock.sendto(json.dumps({'err': 'ip.0', 'ip': ip[len(ip)]}).encode(), self.addr)
+                        else:
+                            self.sock.sendto(json.dumps({'err': 'ip.1', 'ip': 'err'}).encode(), self.addr)
+                    if self.addr not in ip:
+                        ip.append(self.addr[0])
+                        print(ip)
+                    user_thread = _thread.start_new_thread(self.user, ())
