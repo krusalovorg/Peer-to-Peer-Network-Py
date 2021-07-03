@@ -4,7 +4,7 @@ Hey! My name is Egor. I'm tired of the usual ~~old Internet~~ and I think it's t
 I will be glad to cooperate with you!
 My email: asonltdlite@gmail.com or krusalovpro@gmail.com
 # Building the code
-Building code in Visual Studio. To build the code, you don't need any additional modules other than the installed C ++ package.
+Building code in Python Interpreter. To build the code, you don't need any additional modules other than the installed Python package.
 # My Goals:
 - [X] Console
     - [X] Managing your client program
