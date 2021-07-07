@@ -14,5 +14,6 @@ class cmd(object):
             __cmd = input("> ")
             if __cmd == "stop":
                 print("stopppp")
+                exit(0)
     def __init__(self):
         _thread.start_new_thread(self._cmd, ())
