@@ -1,11 +1,10 @@
 # Импортируем нужные библеотеки
-import socket
 
-from Client.client  import *
+from Core.Client.client import *
 
-from Command.cmd  import *
+from Core.Command.cmd import *
 
-from ConsoleStyle.style import *
+from Core.ConsoleStyle.style import *
 
 from msvcrt import getch
 
@@ -95,12 +94,6 @@ def connect(hostname, port):
         result = 0
     return result
 
-def create_conf(node_ip):
-    config = open('config.conf','w+')
-    config.write("node_ip="+node_ip)
-    config.close()
-    print("\nConfig file create!")
-
 def parse_net():
     if LOCAL:
         print(_OTSTUP + "RUN LOCAL NETWORK")
@@ -109,7 +102,7 @@ def parse_net():
             if res:
                 print("Tracker Node found at: ", "192.168.1." + str(i) + ":" + str(3030),"--->   TRUE","["+"-"*int(i/10)+"]",end="\r")
                 node_ip ='192.168.1.'+str(i)
-                create_conf(node_ip)
+                config.create_conf(node_ip)
                 break
             else:
                 print("Not found Tracker Node at: ", "192.168.1." + str(i) + ":" + str(3030),"["+"-"*int(i/10)+"]",end="\r")
@@ -117,7 +110,7 @@ def parse_net():
             if res:
                 print("Tracker Node found at: ", "192.168.0." + str(i) + ":" + str(3030),"--->   TRUE","["+"-"*int(i/10)+"]",end="\r")
                 node_ip ='192.168.0.'+str(i)
-                create_conf(node_ip)
+                config.create_conf(node_ip)
                 break
             else:
                 print("Not found Tracker Node at: ", "192.168.0." + str(i) + ":" + str(3030),"["+"-"*int(i/10)+"]",end="\r")
@@ -130,7 +123,7 @@ print("\n" * 10)
 try:
     config = open('config.conf','r+')
     for line in config:
-        print("Load config line: " + line)
+        console.log(colors.YELLOW,"Load config line: " + line)
         line = line.split("=")
         setting = line[0]
         value = line[1]
