@@ -1,4 +1,5 @@
 # Импортируем нужные библеотеки
+import socket
 
 from Core.Client.client import *
 
@@ -6,7 +7,11 @@ from Core.Command.cmd import *
 
 from Core.ConsoleStyle.style import *
 
+from Core.Network.net import *
+
 from msvcrt import getch
+
+from node import *
 
 import os
 
@@ -72,72 +77,34 @@ while True:
         LOCAL = False
         GLOBAL = False
         CLOSE = True
-def connect(hostname, port):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Создаем сокет
-    sock.bind(('', 0))  # Задаем сокет как клиент
-    sock.settimeout(1)
-
-    node = hostname, port  # Данные об узле
-
-    sock.sendto(json.dumps({'q': 'node?'}).encode(), node)  # Отправление тестового сообщения
-    try:
-        data, addr = sock.recvfrom(1024)
-
-        data = json.loads(data.decode())
-
-        if data["a"] == "+node":
-            result = 1
-        if data["a"] == "-node":
-            result = 0
-        sock.close()
-    except socket.error:
-        result = 0
-    return result
-
-def parse_net():
-    if LOCAL:
-        print(_OTSTUP + "RUN LOCAL NETWORK")
-        for i in range(0, 255):
-            res = connect("192.168.1." + str(i), 3030)
-            if res:
-                print("Tracker Node found at: ", "192.168.1." + str(i) + ":" + str(3030),"--->   TRUE","["+"-"*int(i/10)+"]",end="\r")
-                node_ip ='192.168.1.'+str(i)
-                config.create_conf(node_ip)
-                break
-            else:
-                print("Not found Tracker Node at: ", "192.168.1." + str(i) + ":" + str(3030),"["+"-"*int(i/10)+"]",end="\r")
-            res = connect("192.168.0." + str(i), 3030)
-            if res:
-                print("Tracker Node found at: ", "192.168.0." + str(i) + ":" + str(3030),"--->   TRUE","["+"-"*int(i/10)+"]",end="\r")
-                node_ip ='192.168.0.'+str(i)
-                config.create_conf(node_ip)
-                break
-            else:
-                print("Not found Tracker Node at: ", "192.168.0." + str(i) + ":" + str(3030),"["+"-"*int(i/10)+"]",end="\r")
-    else:
-        print(_OTSTUP + "GLOBAL NETWORK NOT WORK!")
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
 print("\n" * 10)
-try:
-    config = open('config.conf','r+')
-    for line in config:
-        console.log(colors.YELLOW,"Load config line: " + line)
-        line = line.split("=")
-        setting = line[0]
-        value = line[1]
-        if setting == 'node_ip':
-            node_ip = value
-    if node_ip == '':
-        parse_net()
-except FileNotFoundError:
-    print("Config not found!")
-    parse_net()
+net = Net()
+if LOCAL:
+    try:
+        config = open('config.conf','r+')
+        for line in config:
+            console.log(colors.YELLOW,"Load config line: " + line)
+            line = line.split("=")
+            setting = line[0]
+            value = line[1]
+            if setting == 'node_ip':
+                node_ip = value
+        if node_ip == '':
+            net.parse_net()
+    except FileNotFoundError:
+        console.log(colors.YELLOW,"Config not found!")
+        net.parse_net()
 
-print("Connect to Tracker Node")
+    if node_ip == '':
+        console.log(colors.WARNING,"Tracker Node not found, start node")
+        Start_Node()
+else:
+    console.log(colors.WARNING,"GLOBAL NETWORK NOT FOUND!")
 if __name__ == '__main__':
     if LOCAL:
         cmd()
-        print(f"{colors.GREEN}Connect to: ",node_ip,colors.ENDC)
-        Client(ip=node_ip)
+        console.log(f"{colors.GREEN}Connect to: ",node_ip,colors.ENDC)
+        cl = Client(ip=node_ip)

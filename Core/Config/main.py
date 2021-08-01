@@ -1,3 +1,5 @@
+from ..ConsoleStyle.style import *
+
 class Config:
     @classmethod
     def get_ip(self):
@@ -17,4 +19,4 @@ class Config:
         config = open('config.conf', 'w+')
         config.write("node_ip=" + node_ip)
         config.close()
-        print("\nConfig file create!")
+        console.log("\nConfig file create!")

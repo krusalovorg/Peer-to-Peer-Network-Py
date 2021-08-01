@@ -4,6 +4,7 @@ import _thread # Импортируем библеотеку _thread для ра
 
 from Core.Server.server import *
 
+import sys
 # Переменные по умолчанию
 
 ip = []
@@ -16,7 +17,7 @@ class Client(object):
     def p2p_client(self, ip):
         self.p2pc = ip, 3030 # Данные об клиенте p2p для подключения
         # Инициализация сокета
-        print("CONNECT TO PEER TO PEER CLIENT!!!!!!!!!!!!!!", ip)
+        console.log("CONNECT TO PEER TO PEER CLIENT!!!!!!!!!!!!!!", ip)
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Создаем сокет
 
@@ -26,11 +27,11 @@ class Client(object):
 
         self.data, self.addr = self.sock.recvfrom(1024)
 
-        print("P2P SEND: ", self.data)
+        console.log("P2P SEND: ", self.data)
 
         self.data = json.loads(self.data.decode())
 
-        print(self.data)
+        console.log(self.data)
 
     def __init__(self, ip=''):
         node = ip, 3030
@@ -42,7 +43,7 @@ class Client(object):
         self.sock.sendto(json.dumps({'get': 'ip'}).encode(), node) # Запрашиваем айпи адреса клиентов сети
         self.data, self.addr = self.sock.recvfrom(1024)
 
-        print("NODE SEND:",self.data)
+        console.log("NODE SEND:",self.data)
 
         self.data = json.loads(self.data.decode())
 
@@ -50,16 +51,15 @@ class Client(object):
         if err == "ip.0":
             if self.data["ip"] == 'null':
                 self.sock.close()
-                print("Create Peer to Peer Server")
+                console.log("Create Peer to Peer Server")
                 _thread.start_new_thread(Server(),())
             else:
                 self.sock.close()
-                print("ip not null")
-                print("Create Peer to Peer Server")
+                console.log("ip not null")
+                console.log("Create Peer to Peer Server")
                 _thread.start_new_thread(Server(),())
-
-                print("Connect to Peer to Peer client")
+                console.log("Connect to Peer to Peer client")
                 _thread.start_new_thread(self.p2p_client(self.data["ip"]))
         elif err == "ip.1":
-            print("Ваш ip адрес уже зарегестрирован в p2p.network!")
+            console.log("Ваш ip адрес уже зарегестрирован в p2p.network!")
             self.sock.close()

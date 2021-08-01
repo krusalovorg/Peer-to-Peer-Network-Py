@@ -1,4 +1,4 @@
-from Node.Node import *
+from Core.Node.Node import *
 
-if __name__ == "__main__":
+def Start_Node():
     node = Node()

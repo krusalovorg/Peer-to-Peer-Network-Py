@@ -9,7 +9,7 @@ import _thread # Импортируем библеотеку _thread для ра
 
 ip = []
 
-class Node:
+class Node(object):
     threard_num = 0
     def user(self):
         self.threard_num += 1
@@ -28,6 +28,7 @@ class Node:
                 ip.remove(self.addr[0])
                 self.addr.close()  # Закрываем соеденение
                 print(f'Cient {self.addr} disconect')
+
     def __init__(self):
         # Инициализация сокета
 
@@ -45,13 +46,14 @@ class Node:
             self.data = json.loads(self.data.decode())
             if self.data.get("add"):
                 if self.data["add"] == "ip":
-                    if self.addr[0] not in ip:
+                    if self.addr[0] in ip:
+                        print("In ", ip,' include ', self.addr[0])
+                        print("Send packet {'add': '-ip'} to ", self.addr)
+                        self.sock.sendto(json.dumps({'add': '-ip'}).encode(), self.addr)
+                    else:
                         ip.append(self.addr[0])
                         print("Send packet {'add': '+ip'} to ", self.addr)
                         self.sock.sendto(json.dumps({'add': '+ip'}).encode(), self.addr)
-                    else:
-                        print("Send packet {'add': '-ip'} to ", self.addr)
-                        self.sock.sendto(json.dumps({'add': '-ip'}).encode(), self.addr)
                     print(ip)
             if self.data.get("q"):
                 if self.data["q"] == "node?":
