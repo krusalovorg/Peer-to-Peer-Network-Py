@@ -24,15 +24,16 @@ class colors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-global end_pre
+end_pre = ""
 class console:
     def log(*args,indent_len=0,indent=" ",end=""):
         now = ''
         now = time.strftime("%Y,%m,%d,%H,%M,%S")
         now = now.split(',')
         now = [int(x) for x in now]
+        global end_pre
         if end == "":
-            if global end_pre == "\r":
+            if end_pre == "\r":
                 end_pre = ""
                 print("\n",indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC)
         else:
