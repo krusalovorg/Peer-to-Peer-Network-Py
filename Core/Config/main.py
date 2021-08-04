@@ -1,4 +1,10 @@
-from ..ConsoleStyle.style import *
+# Импортируем библеотеки
+
+from ..ConsoleStyle.style import * # Импортируем функции для работы с консолью
+
+import json # Импортируем библеотеку для работы с json
+
+# Код
 
 class Config:
     @classmethod
@@ -11,12 +17,24 @@ class Config:
                 self.value = self.line[1]
                 if self.setting == 'node_ip':
                     self.node_ip = self.value
-                    return self.node_ip
+                    return str(self.node_ip)
         except FileNotFoundError:
-            a = 1
+            return ""
 
-    def create_conf(node_ip:str):
+    def create_conf(node_ip):
         config = open('config.conf', 'w+')
-        config.write("node_ip=" + node_ip)
+        config.write("node_ip=" + str(node_ip))
         config.close()
         console.log("\nConfig file create!")
+
+class version:
+    def GetVersion(self):
+        try:
+            self.version = open('version.json', 'r+')
+            self.version = json.load(self.version)
+            return self.version.version
+        except FileNotFoundError:
+            return ""
+
+    def CheckVersion(self):
+        pass

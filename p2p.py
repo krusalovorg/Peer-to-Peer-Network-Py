@@ -1,110 +1,44 @@
 # Импортируем нужные библеотеки
-import socket
 
-from Core.Client.client import *
+from Core.Client.client import * # Импортируем функции для работы с клиентом пирининговой сети
 
-from Core.Command.cmd import *
+from Core.Command.cmd import * # Импортируем функции для работы с входными данными из консоли
 
-from Core.ConsoleStyle.style import *
+from Core.ConsoleStyle.style import * # Импортируем функции для работы с стилями в консоли
 
-from Core.Network.net import *
+from Core.Network.net import * # Импортируем функции для работы с сетями
 
-from msvcrt import getch
+from node import * # Импортируем функции для запуска трекера узлов
 
-from node import *
+from Core.Config.main import * # Импортируем функции для работы с конфиг файлом
 
-import os
-
-# Глобальные переменные
-LOCAL = True
-GLOBAL = False
-CLOSE = False
-_OTSTUP = 10*" "
-
-node_ip = ''
-
-_y = 0
 # Код
 
-os.system("")
+console.initialization() # Инициализируем стили в консоли
 
-print("\n" * 10)
-print(_OTSTUP + "           ")
-print(_OTSTUP + "           ")
-print(_OTSTUP + f"Network - {colors.BOLD}LOCAL{colors.ENDC}")
-print(_OTSTUP + "          global")
-print(_OTSTUP + "          close")
+network = console.menu() # Запрашиваем у пользователя тип децентрализованной сети
 
-while True:
-    key = ord(getch())
-    os.system('cls' if os.name == 'nt' else 'clear')
-    print("\n" * 10)
-    if key == 80: # Вверх
-        if _y < 2:
-            _y += 1
-    if key == 72: # Вниз
-        if _y > 0:
-            _y -= 1
-    if key == 13:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        if CLOSE:
-            exit(0)
-        break
-    if _y == 0:
-        print(_OTSTUP + "           ")
-        print(_OTSTUP + "           ")
-        print(_OTSTUP + f"Network - {colors.BOLD}LOCAL{colors.ENDC}")
-        print(_OTSTUP + "          global")
-        print(_OTSTUP + "          close")
-        LOCAL = True
-        GLOBAL = False
-        CLOSE = False
-    elif _y == 1:
-        print(_OTSTUP + "           ")
-        print(_OTSTUP + "          local")
-        print(_OTSTUP + f"Network - {colors.BOLD}GLOBAL{colors.ENDC}")
-        print(_OTSTUP + "          close")
-        print(_OTSTUP + "           ")
-        LOCAL = False
-        GLOBAL = True
-        CLOSE = False
-    elif _y == 2:
-        print(_OTSTUP + "          local")
-        print(_OTSTUP + "          global")
-        print(_OTSTUP + f"Network - {colors.BOLD}CLOSE{colors.ENDC}")
-        print(_OTSTUP + "           ")
-        print(_OTSTUP + "           ")
-        LOCAL = False
-        GLOBAL = False
-        CLOSE = True
+net = Net() # Вызываем класс Net для работы с сетями
 
-os.system('cls' if os.name == 'nt' else 'clear')
+node_ip = '' # Создаем переменную для хранения айпи адреса трекера узлов
 
-print("\n" * 10)
-net = Net()
-if LOCAL:
-    try:
-        config = open('config.conf','r+')
-        for line in config:
-            console.log(colors.YELLOW,"Load config line: " + line)
-            line = line.split("=")
-            setting = line[0]
-            value = line[1]
-            if setting == 'node_ip':
-                node_ip = value
-        if node_ip == '':
-            net.parse_net()
-    except FileNotFoundError:
-        console.log(colors.YELLOW,"Config not found!")
-        net.parse_net()
 
-    if node_ip == '':
-        console.log(colors.WARNING,"Tracker Node not found, start node")
-        Start_Node()
-else:
-    console.log(colors.WARNING,"GLOBAL NETWORK NOT FOUND!")
+# Выполнение выбранной команды пользователем
+
+if network == 0: # Проверка выбрал ли пользователь запуск локальной сети
+    node_ip = Config.get_ip() # Получаем айпи адрес трекера узлов из конфиг файла
+    if node_ip == "": # Проверка найден ли айпи айдрес
+        node_ip = net.parse_net() # Запускаем парсер локальной сети для поиска трекера узлов
+        if node_ip == "": # Проверка найден ли айпи айдрес
+            console.log(colors.WARNING,"Tracker Node not found, start node") # Уведомление пользователя если не найден айпи адрес трекера узлов
+            Start_Node() # Запуск трекера узлов
+    else: # Если не найден айпи адрес
+        Config.create_conf(node_ip) # Создание конфиг файла и указание найденного айпи адреса
+if network == 1: # Если пользователь выбрал запуск/вход в глобальную сеть
+    console.log(colors.WARNING,"GLOBAL NETWORK NOT FOUND!") # Уведомелнение пользователя так как не найдена глобальная сеть
+
 if __name__ == '__main__':
-    if LOCAL:
-        cmd()
-        console.log(f"{colors.GREEN}Connect to: ",node_ip,colors.ENDC)
-        cl = Client(ip=node_ip)
+    if network == 0: # Выполнение выбранной команды пользователем
+        cmd() # Запуск консоли
+        console.log(f"{colors.GREEN}Connect to: ",node_ip,colors.ENDC) # Уведомление пользователя о подключении к трекеру узлов
+        cl = Client(ip=node_ip) # Запуск алгоритма подключения к децентрализованной сети

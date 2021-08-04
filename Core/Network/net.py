@@ -34,7 +34,8 @@ def connect(hostname, port):
 
 class Net:
     def parse_net(self):
-        console.log("RUN LOCAL NETWORK", indent_len=10)
+        console.log("RUN LOCAL NETWORK")
+        node_ip = ""
         for i in range(0, 255):
             self.ip = "192.168.1." + str(i)
             self.res = connect(self.ip, 3030)
@@ -46,6 +47,7 @@ class Net:
             else:
                 console.log(colors.YELLOW,"Not found Tracker Node at: ", "192.168.1." + str(i) + ":" + str(3030),
                           "[" + "-" * int(i / 10) + "]", end="\r")
+                self.node_ip = ""
                 self.res = connect("192.168.0." + str(i), 3030)
                 if self.res:
                     console.log(colors.GREEN,"Tracker Node found at: ", "192.168.0." + str(i) + ":" + str(3030), "--->   TRUE","[" + "-" * int(self.i / 10) + "]", end="\r")
@@ -55,3 +57,5 @@ class Net:
                 else:
                     console.log(colors.YELLOW,"Not found Tracker Node at: ", "192.168.0." + str(i) + ":" + str(3030),
                           "[" + "-" * int(i / 10) + "]", end="\r")
+                    self.node_ip = ""
+        return self.node_ip
