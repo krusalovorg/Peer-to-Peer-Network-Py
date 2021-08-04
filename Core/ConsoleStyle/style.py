@@ -6,6 +6,8 @@ import os
 
 from msvcrt import getch
 
+import threading
+
 # Классы
 
 class colors:
@@ -56,17 +58,20 @@ class console:
         print("\n" * 10)
         print(_OTSTUP + "           ")
         print(_OTSTUP + "           ")
+        print(_OTSTUP + "           ")
         print(_OTSTUP + f"Network - {colors.BOLD}LOCAL{colors.ENDC}")
         print(_OTSTUP + "          global")
+        print(_OTSTUP + "          connect to")
         print(_OTSTUP + "          close")
 
         _y = 0
         select = 0
+        input_p = ''
         while True:
             key = ord(getch())
             if key == 80:  # Вверх
                 os.system('cls' if os.name == 'nt' else 'clear')
-                if _y < 2:
+                if _y < 3:
                     _y += 1
             if key == 72:  # Вниз
                 os.system('cls' if os.name == 'nt' else 'clear')
@@ -74,31 +79,50 @@ class console:
                     _y -= 1
             if key == 13: # Enter
                 os.system('cls' if os.name == 'nt' else 'clear')
-                if select == 2:
+                if select == 3:
                     exit(0)
+                if select == 2:
+                    print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC}",end="\r")
+                    input(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} ")
                 break
             print("\n" * 10)
             if _y == 0:
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + f"Network - {colors.BOLD}LOCAL{colors.ENDC}")
                 print(_OTSTUP + "          global")
+                print(_OTSTUP + "          connect to")
                 print(_OTSTUP + "          close")
                 select = 0
             elif _y == 1:
                 print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + f"Network - {colors.BOLD}GLOBAL{colors.ENDC}")
+                print(_OTSTUP + "          connect to")
                 print(_OTSTUP + "          close")
                 print(_OTSTUP + "           ")
                 select = 1
             elif _y == 2:
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + "          global")
+                #print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC}")
+                print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} (ENTER TO CONTINUE)")
+                print(_OTSTUP + "          close")
+                print(_OTSTUP + "           ")
+                select = 2
+            elif _y == 3:
+                print(_OTSTUP + "          local")
+                print(_OTSTUP + "          global")
+                print(_OTSTUP + "          connect to")
                 print(_OTSTUP + f"Network - {colors.BOLD}CLOSE{colors.ENDC}")
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
-                select = 2
+                print(_OTSTUP + "           ")
+                select = 3
         os.system('cls' if os.name == 'nt' else 'clear')
         return select
 
