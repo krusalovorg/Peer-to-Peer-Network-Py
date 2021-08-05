@@ -40,6 +40,8 @@ class Client(object):
 
         self.sock.bind(('', 0)) # Задаем сокет как клиент
 
+        console.log(f"{colors.YELLOW}Request IP address of client p2p",colors.ENDC) # Уведомление пользователя о запрашивания айпи адресов клиентов сети
+
         self.sock.sendto(json.dumps({'get': 'ip'}).encode(), node) # Запрашиваем айпи адреса клиентов сети
         self.data, self.addr = self.sock.recvfrom(1024)
 

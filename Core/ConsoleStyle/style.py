@@ -52,7 +52,6 @@ class console:
         else:
             end_pre = end
             print(indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC,end=end)
-
     def menu():
         _OTSTUP = 10 * " "
         print("\n" * 10)
@@ -82,9 +81,11 @@ class console:
                 if select == 3:
                     exit(0)
                 if select == 2:
-                    print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC}",end="\r")
-                    input(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} ")
+                    print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} \x1b[47m255{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC}",end="\r")
+                    select = str(input(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} "))
                 break
+            else:
+                os.system('cls' if os.name == 'nt' else 'clear')
             print("\n" * 10)
             if _y == 0:
                 print(_OTSTUP + "           ")
