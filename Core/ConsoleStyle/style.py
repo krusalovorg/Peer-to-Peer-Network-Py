@@ -6,6 +6,8 @@ import os
 
 from msvcrt import getch
 
+from Core.Config.main import *
+
 import threading
 
 # Классы
@@ -30,28 +32,69 @@ class colors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
 end_pre = ""
 class console:
     def initialization():
         os.system("")
-    def log(*args,indent_len=0,indent=" ",end="",logTime=True):
+    def log(*args,indent_len=0,indent=" ",end="",err=False,logTime=True, info=False):
         now = ''
         now = time.strftime("%Y,%m,%d,%H,%M,%S")
         now = now.split(',')
         now = [int(x) for x in now]
+
         global end_pre
+
+        str_log = ""
+
         if end == "":
             if end_pre == "\r":
                 end_pre = ""
-                print("\n",indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC)
+                str_log = "\n" + indent_len*indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
+                for i in args:
+                    str_log += i
+                #print("\n",indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC)
             else:
                 if logTime:
-                    print(indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC)
+                    if err:
+                        str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] ' + '[ERR] '
+                    else:
+                        str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
+
+                    if info:
+                        str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] ' + '[INFO] '
+                    else:
+                        str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
+
+                    for i in args:
+                        str_log += i
+                    #print(indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC)
                 else:
-                    print(indent_len*indent,*args,colors.ENDC)
+                    if err:
+                        str_log = indent_len * indent + ' [ERR] '
+                    else:
+                        str_log = indent_len * indent
+                    if err:
+                        str_log = indent_len * indent + ' [INFO] '
+                    else:
+                        str_log = indent_len * indent
+                    str_log += indent_len * indent
+                    for i in args:
+                        str_log += i
+                    #print(indent_len*indent,*args,colors.ENDC)
         else:
             end_pre = end
-            print(indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC,end=end)
+            str_log = indent_len*indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
+            for i in args:
+                str_log += i
+            #print(indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC,end=end)
+
+        str_log += colors.ENDC
+
+        if end != "":
+            print(str_log, end=end)
+        else:
+            print(str_log)
     def menu():
         _OTSTUP = 10 * " "
         print("\n" * 10)
@@ -81,12 +124,15 @@ class console:
                 if select == 3:
                     exit(0)
                 if select == 2:
-                    print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} \x1b[47m255{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC}",end="\r")
+                    print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} {colors.UNDERLINE}255{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC}",end="\r")
                     select = str(input(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} "))
                 break
             else:
                 os.system('cls' if os.name == 'nt' else 'clear')
             print("\n" * 10)
+
+            console.log(colors.OKCYAN, f"Version: {version.GetVersion()}", info=True)
+
             if _y == 0:
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")

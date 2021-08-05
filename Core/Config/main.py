@@ -2,6 +2,8 @@
 
 from ..ConsoleStyle.style import * # Импортируем функции для работы с консолью
 
+import requests
+
 import json # Импортируем библеотеку для работы с json
 
 # Код
@@ -28,13 +30,18 @@ class Config:
         console.log("\nConfig file create!")
 
 class version:
+    @classmethod
     def GetVersion(self):
         try:
             self.version = open('version.json', 'r+')
             self.version = json.load(self.version)
-            return self.version.version
+            return self.version['version']
         except FileNotFoundError:
             return ""
 
+    @classmethod
     def CheckVersion(self):
-        pass
+        self.r = requests.get('https://raw.githubusercontent.com/krusalovorg/Peer-to-Peer-Network-Py/main/version.json')
+        print(self.r.text[:100])
+        self.r = json.load(str(self.r.text[:100]))
+        return self.r['version']
