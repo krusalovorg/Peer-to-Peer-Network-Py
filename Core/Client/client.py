@@ -69,12 +69,12 @@ class Client(object):
                     console.log("Ваш ip адрес уже зарегестрирован в p2p.network!")
                     self.sock.close()
         except socket.timeout:
-            console.log(f"{colors.RED}The node tracker timeout has expired!",colors.ENDC,err=True) # Уведомление пользователя о ошибке (время ожидание трекера узлов вышло)
-            console.log(f"{colors.RED}Check your internet connection and local network integrity!",colors.ENDC, err=True) # Уведомление пользователя как можно решить проблему
-            input('')
+            console.log(f"{colors.FAIL}The node tracker timeout has expired!",colors.ENDC,err=True) # Уведомление пользователя о ошибке (время ожидание трекера узлов вышло)
+            console.log(f"{colors.FAIL}Check your internet connection and local network integrity!",colors.ENDC, err=True) # Уведомление пользователя как можно решить проблему
+            input('Press Enter to close: ')  # Уведомление пользователя как закрыть программу
         except socket.gaierror:
-            console.log(f"{colors.RED}Wrong IP address of node tracker received!",colors.ENDC,err=True) # Уведомление пользователя о ошибке (не корректный айпи адрес трекера узлов)
-            console.log(f"{colors.RED}There are several solutions to this problem:",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
-            console.log(f"{colors.RED}1. Copy the IP address of the node tracker from the official site of the peer-to-peer network",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
-            console.log(f"{colors.RED}2. Before connecting to the peer-to-peer network, select the {colors.YELLOW}{colors.BOLD}connect to{colors.ENDC}{colors.RED} connection type in the menu and enter the copied IP address there.",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
-            input('')
+            console.log(f"{colors.FAIL}Wrong IP address of node tracker received!",colors.ENDC,err=True) # Уведомление пользователя о ошибке (не корректный айпи адрес трекера узлов)
+            console.log(f"{colors.FAIL}There are several solutions to this problem:",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
+            console.log(f"{colors.FAIL}1. Copy the IP address of the node tracker from the official site of the peer-to-peer network",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
+            console.log(f"{colors.FAIL}2. Before connecting to the peer-to-peer network, select the {colors.YELLOW}{colors.BOLD}connect to{colors.ENDC}{colors.RED} connection type in the menu and enter the copied IP address there.",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
+            input('Press Enter to close: ')  # Уведомление пользователя как закрыть программу

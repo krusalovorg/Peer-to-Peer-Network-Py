@@ -42,6 +42,6 @@ class version:
     @classmethod
     def CheckVersion(self):
         self.r = requests.get('https://raw.githubusercontent.com/krusalovorg/Peer-to-Peer-Network-Py/main/version.json')
-        print(self.r.text[:100])
-        self.r = json.load(str(self.r.text[:100]))
-        return self.r['version']
+        self.v = str(self.r.text)
+        self.v = json.loads(self.v)
+        return self.v['version']

@@ -6,10 +6,9 @@ import os
 
 from msvcrt import getch
 
-from Core.Config.main import *
+import json
 
-import threading
-
+import sys
 # Классы
 
 class colors:
@@ -32,6 +31,25 @@ class colors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    BLACK_WHITE = '\x1b[0;30;47m'
+    RED_WHITE = '\x1b[0;31;47m'
+    YELLOW_WHITE = '\x1b[0;33;47m'
+    GRAY = '\x1b[1;30;40m'
+    GRAY2 = '\x1b[2;37;40m'
+
+def print_format_table():
+    """
+    prints table of formatted text format options
+    """
+    for style in range(8):
+        for fg in range(30,38):
+            s1 = ''
+            for bg in range(40,48):
+                format = ';'.join([str(style), str(fg), str(bg)])
+                s1 += '\x1b[%sm %s \x1b[0m' % (format, format)
+                print('\\x1b[%sm %s \\x1b[0m' % (format, format))
+            print(s1)
+        print('\n')
 
 end_pre = ""
 class console:
@@ -62,7 +80,7 @@ class console:
                         str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
 
                     if info:
-                        str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] ' + '[INFO] '
+                        str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] ' + f'[{colors.YELLOW}INFO{colors.ENDC}] '
                     else:
                         str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
 
@@ -74,8 +92,8 @@ class console:
                         str_log = indent_len * indent + ' [ERR] '
                     else:
                         str_log = indent_len * indent
-                    if err:
-                        str_log = indent_len * indent + ' [INFO] '
+                    if info:
+                        str_log = indent_len * indent + f' [{colors.YELLOW}INFO{colors.ENDC}] '
                     else:
                         str_log = indent_len * indent
                     str_log += indent_len * indent
@@ -96,24 +114,43 @@ class console:
         else:
             print(str_log)
     def menu():
-        _OTSTUP = 10 * " "
-        print("\n" * 10)
-        print(_OTSTUP + "           ")
-        print(_OTSTUP + "           ")
-        print(_OTSTUP + "           ")
-        print(_OTSTUP + f"Network - {colors.BOLD}LOCAL{colors.ENDC}")
-        print(_OTSTUP + "          global")
-        print(_OTSTUP + "          connect to")
-        print(_OTSTUP + "          close")
+        os.system('cls' if os.name == 'nt' else 'clear')
 
         _y = 0
         select = 0
         input_p = ''
+        _OTSTUP = 10 * " "
+        select_color = colors.BLACK_WHITE
+        def GetVersion():
+            try:
+                version = open('version.json', 'r+')
+                version = json.load(version)
+                return version['version']
+            except FileNotFoundError:
+                return ""
+        def Header_menu():
+            console.log(_OTSTUP,colors.BOLD,f"----------{colors.YELLOW}INFO{colors.ENDC}----------", logTime=False)
+            console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Version{colors.ENDC}: {GetVersion()}", logTime=False,indent_len=2)
+            console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Y{colors.ENDC}: {_y}", logTime=False,indent_len=2)
+            print("\n")
+
+        print("\n" * 10)
+        Header_menu()
+        print(_OTSTUP + "           ")
+        print(_OTSTUP + "           ")
+        print(_OTSTUP + "           ")
+        print(_OTSTUP + "           ")
+        print(_OTSTUP + f"Network - {select_color}LOCAL{colors.ENDC}")
+        print(_OTSTUP + "          global")
+        print(_OTSTUP + "          connect to")
+        print(_OTSTUP + "          close")
+        print(_OTSTUP + "          restart")
+
         while True:
             key = ord(getch())
             if key == 80:  # Вверх
                 os.system('cls' if os.name == 'nt' else 'clear')
-                if _y < 3:
+                if _y < 4:
                     _y += 1
             if key == 72:  # Вниз
                 os.system('cls' if os.name == 'nt' else 'clear')
@@ -126,29 +163,34 @@ class console:
                 if select == 2:
                     print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} {colors.UNDERLINE}255{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC}",end="\r")
                     select = str(input(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} "))
+                if select == 4:
+                    os.execv(sys.executable, [sys.executable] + sys.argv)
                 break
             else:
                 os.system('cls' if os.name == 'nt' else 'clear')
+
             print("\n" * 10)
-
-            console.log(colors.OKCYAN, f"Version: {version.GetVersion()}", info=True)
-
+            Header_menu()
             if _y == 0:
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
-                print(_OTSTUP + f"Network - {colors.BOLD}LOCAL{colors.ENDC}")
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + f"Network - {select_color}LOCAL{colors.ENDC}")
                 print(_OTSTUP + "          global")
                 print(_OTSTUP + "          connect to")
                 print(_OTSTUP + "          close")
+                print(_OTSTUP + "          restart")
                 select = 0
             elif _y == 1:
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
-                print(_OTSTUP + f"Network - {colors.BOLD}GLOBAL{colors.ENDC}")
+                print(_OTSTUP + f"Network - {select_color}GLOBAL{colors.ENDC}")
                 print(_OTSTUP + "          connect to")
                 print(_OTSTUP + "          close")
+                print(_OTSTUP + "          restart")
                 print(_OTSTUP + "           ")
                 select = 1
             elif _y == 2:
@@ -157,19 +199,33 @@ class console:
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + "          global")
                 #print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC}")
-                print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} (ENTER TO CONTINUE)")
+                print(_OTSTUP + f"Network - {select_color}CONNECT TO{colors.ENDC} (ENTER TO CONTINUE)")
                 print(_OTSTUP + "          close")
+                print(_OTSTUP + "          restart")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
                 select = 2
             elif _y == 3:
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + "          global")
                 print(_OTSTUP + "          connect to")
-                print(_OTSTUP + f"Network - {colors.BOLD}CLOSE{colors.ENDC}")
-                print(_OTSTUP + "           ")
+                print(_OTSTUP + f"Network - {colors.RED_WHITE}CLOSE{colors.ENDC}")
+                print(_OTSTUP + "          restart")
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
                 select = 3
+            elif _y == 4:
+                print(_OTSTUP + "          local")
+                print(_OTSTUP + "          global")
+                print(_OTSTUP + "          connect to")
+                print(_OTSTUP + "          close")
+                print(_OTSTUP + f"Network - {colors.YELLOW_WHITE}REBOOT{colors.ENDC} the programm")
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
+                select = 4
+
         os.system('cls' if os.name == 'nt' else 'clear')
         return select
 

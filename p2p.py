@@ -22,14 +22,15 @@ vers = version
 
 AppVersion = vers.GetVersion()
 
-console.log(colors.OKCYAN,f"Version: {AppVersion}")
-
 OfficialVersion = vers.CheckVersion()
 
 if AppVersion == OfficialVersion:
-   console.log("You have the official version of the peer-to-peer network client installed!")
+   console.log(colors.BOLD,f"Version: {AppVersion}", logTime=True, info=True)
+else:
+    console.log(colors.WARNING, f"Your version: {AppVersion}", logTime=True, info=True)
+    console.log(colors.WARNING, f"Official Version: {AppVersion}", logTime=True, info=True)
+    console.log(colors.BOLD, f"Update [] 0/10", info=True)
 
-input()
 # Инициализация меню
 
 network = console.menu() # Запрашиваем у пользователя тип децентрализованной сети
@@ -51,6 +52,7 @@ if network == 0: # Проверка выбрал ли пользователь �
         Config.create_conf(node_ip) # Создание конфиг файла и указание найденного айпи адреса
 if network == 1: # Если пользователь выбрал запуск/вход в глобальную сеть
     console.log(colors.WARNING,"GLOBAL NETWORK NOT FOUND!") # Уведомелнение пользователя так как не найдена глобальная сеть
+    input('Press Enter to close: ') # Уведомление пользователя как закрыть программу
 if isinstance(network, str): # Если пользователь выбрал подключение к трекеру узлов по айпи адресу
     node_ip = network # Присваиваем значение айпи адреса трекера узлов к переменной node_ip
 
