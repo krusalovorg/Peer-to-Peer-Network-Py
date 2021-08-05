@@ -131,7 +131,7 @@ class console:
         def Header_menu():
             console.log(_OTSTUP,colors.BOLD,f"----------{colors.YELLOW}INFO{colors.ENDC}----------", logTime=False)
             console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Version{colors.ENDC}: {GetVersion()}", logTime=False,indent_len=2)
-            console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Y{colors.ENDC}: {_y}", logTime=False,indent_len=2)
+            #console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Y{colors.ENDC}: {_y}", logTime=False,indent_len=2)
             print("\n")
 
         print("\n" * 10)
