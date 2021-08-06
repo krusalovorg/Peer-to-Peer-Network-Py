@@ -9,6 +9,8 @@ import json
 
 from ..ConsoleStyle.style import * # Импортируем библеотеку style для работы с красивым print'ом
 
+from Core.Error.main import *
+
 # Классы
 def add_ip():
     # Инициализация сокета

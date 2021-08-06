@@ -1,8 +1,10 @@
 # Импортируем нужные библеотеки
 
-import _thread # Импортируем библеотеку _thread для работы с потоками
+import threading # Импортируем библеотеку _thread для работы с потоками
 
 from Core.Server.server import *
+
+from Core.Error.main import *
 
 import sys
 # Переменные по умолчанию
@@ -21,9 +23,9 @@ class Client(object):
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Создаем сокет
 
-        self.sock.bind(('',3030)) # Задаем сокет как клиент
+        self.sock.bind(('',3031)) # Задаем сокет как клиент
 
-        self.sock.sendto(json.dumps({'':''}).encode(), self.p2pc)
+        self.sock.sendto(json.dumps({'test':'test'}).encode(), self.p2pc)
 
         self.data, self.addr = self.sock.recvfrom(1024)
 
@@ -41,7 +43,7 @@ class Client(object):
 
             self.sock.bind(('', 0)) # Задаем сокет как клиент
 
-            self.sock.settimeout(0.1) # Максимальное ожидание ответа трекера узлов
+            self.sock.settimeout(0.3) # Максимальное ожидание ответа трекера узлов
 
             console.log(f"{colors.YELLOW}Request IP address of client p2p",colors.ENDC) # Уведомление пользователя о запрашивания айпи адресов клиентов сети
 
@@ -57,24 +59,25 @@ class Client(object):
                     if self.data["ip"] == 'null':
                         self.sock.close()
                         console.log("Create Peer to Peer Server")
-                        _thread.start_new_thread(Server(),())
+                        ThreadServer = threading.Thread(target=Server())
+                        ThreadServer.start()
                     else:
                         self.sock.close()
                         console.log("ip not null")
                         console.log("Create Peer to Peer Server")
-                        _thread.start_new_thread(Server(),())
+                        ThreadServer = threading.Thread(target=Server())
                         console.log("Connect to Peer to Peer client")
-                        _thread.start_new_thread(self.p2p_client(self.data["ip"]))
+                        ThreadClient = threading.Thread(target=self.p2p_client(self.data["ip"]))
+                        ThreadServer.start()
+                        ThreadClient.start()
+                        #_thread.start_new_thread(self.p2p_client(self.data["ip"]))
                 elif err == "ip.1":
-                    console.log("Ваш ip адрес уже зарегестрирован в p2p.network!")
+                    raise p2p.ip1()
                     self.sock.close()
-        except socket.timeout:
-            console.log(f"{colors.FAIL}The node tracker timeout has expired!",colors.ENDC,err=True) # Уведомление пользователя о ошибке (время ожидание трекера узлов вышло)
-            console.log(f"{colors.FAIL}Check your internet connection and local network integrity!",colors.ENDC, err=True) # Уведомление пользователя как можно решить проблему
-            input('Press Enter to close: ')  # Уведомление пользователя как закрыть программу
+        except socket.timeout: # Ошибка ip.2 - время ожидание трекера узла вышло
+            raise p2p.ip2()
         except socket.gaierror:
-            console.log(f"{colors.FAIL}Wrong IP address of node tracker received!",colors.ENDC,err=True) # Уведомление пользователя о ошибке (не корректный айпи адрес трекера узлов)
-            console.log(f"{colors.FAIL}There are several solutions to this problem:",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
-            console.log(f"{colors.FAIL}1. Copy the IP address of the node tracker from the official site of the peer-to-peer network",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
-            console.log(f"{colors.FAIL}2. Before connecting to the peer-to-peer network, select the {colors.YELLOW}{colors.BOLD}connect to{colors.ENDC}{colors.RED} connection type in the menu and enter the copied IP address there.",colors.ENDC,err=True) # Уведомление пользователя как можно решить проблему
-            input('Press Enter to close: ')  # Уведомление пользователя как закрыть программу
+            raise p2p.ip3() # Ошибка ip.3 - не корректный ip адрес
+        except WindowsError as e: # Ошибка ip.3 - не корректный ip адрес
+            if e.winerror == 10013:
+                raise p2p.ip3()

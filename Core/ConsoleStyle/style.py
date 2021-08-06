@@ -85,7 +85,7 @@ class console:
                         str_log = indent_len * indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
 
                     for i in args:
-                        str_log += i
+                        str_log += str(i)
                     #print(indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC)
                 else:
                     if err:
