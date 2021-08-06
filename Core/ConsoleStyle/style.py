@@ -160,7 +160,7 @@ class console:
                 if select == 3:
                     exit(0)
                 if select == 2:
-                    print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} {colors.UNDERLINE}255{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC} {colors.UNDERLINE}...{colors.ENDC}",end="\r")
+                    print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} {colors.GRAY}255{colors.ENDC} {colors.GRAY}255{colors.ENDC} {colors.GRAY}255{colors.ENDC} {colors.GRAY}255{colors.ENDC}",end="\r")
                     select = str(input(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} "))
                 if select == 4:
                     os.execv(sys.executable, [sys.executable] + sys.argv)
