@@ -8,10 +8,12 @@ Building code in Python Interpreter. To build the code, you don't need any addit
 # My Goals:
 - [X] Console
     - [X] Managing your client program
-    - [X] Language selection (Ru or En)
-- [ ] Working with networks
-    - [ ] Tracking Nodes
-    - [ ] Stable client
-- [ ] Tracking Nodes
+    - [X] Choosing a network architecture
+    - [X] Logs
+- [X] Working with networks
+    - [X] Tracking Nodes
+    - [X] Stable client
+- [X] Tracking Nodes
     - [X] List Ip Adderes
     - [X] Building the network architecture
+- [ ] Network architecture
