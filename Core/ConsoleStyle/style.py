@@ -71,7 +71,6 @@ class console:
                 str_log = "\n" + indent_len*indent + f' [{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}] '
                 for i in args:
                     str_log += i
-                #print("\n",indent_len*indent,f'[{now[0]}-{now[1]}-{now[2]}-{now[3]}-{now[4]}]',*args,colors.ENDC)
             else:
                 if logTime:
                     if err:

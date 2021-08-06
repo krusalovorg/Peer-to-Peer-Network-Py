@@ -34,7 +34,7 @@ def connect(hostname, port):
 
 class Net:
     def parse_net(self):
-        console.log("RUN LOCAL NETWORK")
+        console.log(colors.YELLOW,"RUN LOCAL NETWORK")
         node_ip = ""
         for i in range(0, 255):
             self.ip = "192.168.1." + str(i)

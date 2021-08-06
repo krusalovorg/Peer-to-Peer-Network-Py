@@ -27,7 +27,7 @@ class Config:
         config = open('config.conf', 'w+')
         config.write("node_ip=" + str(node_ip))
         config.close()
-        console.log("\nConfig file create!")
+        console.log("Config file create!")
 
 class version:
     @classmethod
