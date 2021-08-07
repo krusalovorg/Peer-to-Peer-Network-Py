@@ -55,6 +55,7 @@ def print_format_table():
 
 end_pre = ""
 class console:
+    otstup_vert = "\n" * 13
     def initialization():
         os.system("")
     def log(*args,indent_len=0,indent=" ",end="",err=False,logTime=True, info=False):
@@ -114,6 +115,60 @@ class console:
             print(str_log, end=end)
         else:
             print(str_log)
+    def GetVersion():
+        try:
+            version = open('version.json', 'r+')
+            version = json.load(version)
+            return version['version']
+        except FileNotFoundError:
+            return ""
+    speed_dowonload = Net.download()
+    def Header_menu():
+        _OTSTUP = 10 * " "
+        console.log(_OTSTUP, colors.BOLD, f"----------{colors.YELLOW}INFO{colors.ENDC}----------", logTime=False)
+        console.log(_OTSTUP, colors.BOLD, f"{colors.YELLOW}Version{colors.ENDC}: {console.GetVersion()}", logTime=False,
+                    indent_len=2)
+        console.log(_OTSTUP, colors.BOLD, f"-----{colors.YELLOW}Internet speed{colors.ENDC}-----", logTime=False)
+        console.log(_OTSTUP, colors.BOLD, f"{colors.BLUE}Dowonload{colors.ENDC}: {console.speed_dowonload}", logTime=False,
+                    indent_len=2)
+        # console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Net{colors.ENDC}: {Net.download('https://xn---35-6cdk1dnenygj.xn--p1ai/img/users/2019/11/4_ons_black_bg_1920x1080.png')}", logTime=False,indent_len=2)
+        # console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Y{colors.ENDC}: {_y}", logTime=False,indent_len=2)
+        print("\n")
+    def settings():
+        _y2 = 0
+        _OTSTUP = 10 * " "
+        select_color = colors.BLACK_WHITE
+
+        print(console.otstup_vert)
+        console.Header_menu()
+        print(_OTSTUP + "           ")
+        print(_OTSTUP + f"Setting - {select_color}CLEAR CACHE{colors.ENDC}")
+        print(_OTSTUP + "          BACK")
+        while True:
+            key = ord(getch())
+            if key == 80:  # Вверх
+                os.system('cls' if os.name == 'nt' else 'clear')
+                if _y2 < 1:
+                    _y2 += 1
+            if key == 72:  # Вниз
+                os.system('cls' if os.name == 'nt' else 'clear')
+                if _y2 > 0:
+                    _y2 -= 1
+            if key == 13:
+                break
+            print(console.otstup_vert)
+            console.Header_menu()
+            if _y2 == 0:
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + f"Setting - {select_color}CLEAR CACHE{colors.ENDC}")
+                print(_OTSTUP + "          back")
+                select2 = 0
+            if _y2 == 1:
+                print(_OTSTUP + "          clear cache")
+                print(_OTSTUP + f"Setting - {select_color}BACK{colors.ENDC}")
+                print(_OTSTUP + "           ")
+                select2 = 1
+        return select2
     def menu():
         os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -122,22 +177,9 @@ class console:
         input_p = ''
         _OTSTUP = 10 * " "
         select_color = colors.BLACK_WHITE
-        def GetVersion():
-            try:
-                version = open('version.json', 'r+')
-                version = json.load(version)
-                return version['version']
-            except FileNotFoundError:
-                return ""
-        def Header_menu():
-            console.log(_OTSTUP,colors.BOLD,f"----------{colors.YELLOW}INFO{colors.ENDC}----------", logTime=False)
-            console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Version{colors.ENDC}: {GetVersion()}", logTime=False,indent_len=2)
-            #console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Net{colors.ENDC}: {Net.download('https://xn---35-6cdk1dnenygj.xn--p1ai/img/users/2019/11/4_ons_black_bg_1920x1080.png')}", logTime=False,indent_len=2)
-            #console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Y{colors.ENDC}: {_y}", logTime=False,indent_len=2)
-            print("\n")
 
-        print("\n" * 10)
-        Header_menu()
+        print(console.otstup_vert)
+        console.Header_menu()
         print(_OTSTUP + "           ")
         print(_OTSTUP + "           ")
         print(_OTSTUP + "           ")
@@ -145,6 +187,7 @@ class console:
         print(_OTSTUP + f"Network - {select_color}LOCAL{colors.ENDC}")
         print(_OTSTUP + "          global")
         print(_OTSTUP + "          connect to")
+        print(_OTSTUP + "          settings")
         print(_OTSTUP + "          close")
         print(_OTSTUP + "          restart")
 
@@ -152,7 +195,7 @@ class console:
             key = ord(getch())
             if key == 80:  # Вверх
                 os.system('cls' if os.name == 'nt' else 'clear')
-                if _y < 4:
+                if _y < 5:
                     _y += 1
             if key == 72:  # Вниз
                 os.system('cls' if os.name == 'nt' else 'clear')
@@ -160,19 +203,26 @@ class console:
                     _y -= 1
             if key == 13: # Enter
                 os.system('cls' if os.name == 'nt' else 'clear')
-                if select == 3:
-                    exit(0)
+                if select == 0:
+                    break
+                if select == 1:
+                    break
                 if select == 2:
                     print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} {colors.GRAY}255{colors.ENDC} {colors.GRAY}255{colors.ENDC} {colors.GRAY}255{colors.ENDC} {colors.GRAY}255{colors.ENDC}",end="\r")
                     select = str(input(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC} "))
+                    break
+                if select == 3:
+                    break
                 if select == 4:
-                    os.execv(sys.executable, [sys.executable] + sys.argv)
-                break
+                    exit(0)
+                    break
+                if select == 5:
+                    break
             else:
                 os.system('cls' if os.name == 'nt' else 'clear')
 
-            print("\n" * 10)
-            Header_menu()
+            print(console.otstup_vert)
+            console.Header_menu()
             if _y == 0:
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
@@ -181,6 +231,7 @@ class console:
                 print(_OTSTUP + f"Network - {select_color}LOCAL{colors.ENDC}")
                 print(_OTSTUP + "          global")
                 print(_OTSTUP + "          connect to")
+                print(_OTSTUP + "          settings")
                 print(_OTSTUP + "          close")
                 print(_OTSTUP + "          restart")
                 select = 0
@@ -188,9 +239,11 @@ class console:
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + f"Network - {select_color}GLOBAL{colors.ENDC}")
                 print(_OTSTUP + "          connect to")
+                print(_OTSTUP + "          settings")
                 print(_OTSTUP + "          close")
                 print(_OTSTUP + "          restart")
                 print(_OTSTUP + "           ")
@@ -198,10 +251,12 @@ class console:
             elif _y == 2:
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + "          global")
                 #print(_OTSTUP + f"Network - {colors.BOLD}CONNECT TO{colors.ENDC}")
                 print(_OTSTUP + f"Network - {select_color}CONNECT TO{colors.ENDC} (ENTER TO CONTINUE)")
+                print(_OTSTUP + "          settings")
                 print(_OTSTUP + "          close")
                 print(_OTSTUP + "          restart")
                 print(_OTSTUP + "           ")
@@ -209,24 +264,43 @@ class console:
                 select = 2
             elif _y == 3:
                 print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + "          global")
                 print(_OTSTUP + "          connect to")
-                print(_OTSTUP + f"Network - {colors.RED_WHITE}CLOSE{colors.ENDC}")
+                print(_OTSTUP + f"Network - {colors.RED_WHITE}SETTINGS{colors.ENDC}")
+                print(_OTSTUP + "          close")
                 print(_OTSTUP + "          restart")
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
                 select = 3
             elif _y == 4:
+                print(_OTSTUP + "           ")
                 print(_OTSTUP + "          local")
                 print(_OTSTUP + "          global")
                 print(_OTSTUP + "          connect to")
+                print(_OTSTUP + "          settings")
+                print(_OTSTUP + f"Network - {colors.RED_WHITE}CLOSE{colors.ENDC}")
+                print(_OTSTUP + "          restart")
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
+                select = 4
+            elif _y == 5:
+                print(_OTSTUP + "          local")
+                print(_OTSTUP + "          global")
+                print(_OTSTUP + "          connect to")
+                print(_OTSTUP + "          settings")
                 print(_OTSTUP + "          close")
                 print(_OTSTUP + f"Network - {colors.YELLOW_WHITE}REBOOT{colors.ENDC} the programm")
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
                 print(_OTSTUP + "           ")
-                select = 4
+                print(_OTSTUP + "           ")
+                print(_OTSTUP + "           ")
+                select = 5
 
         os.system('cls' if os.name == 'nt' else 'clear')
         return select

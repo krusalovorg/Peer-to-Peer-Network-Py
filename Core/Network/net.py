@@ -39,8 +39,8 @@ def connect(hostname, port):
 
 class Net:
     def download():
-        path = os.path.join('./cache', 'p2p.jpg')
-        os.remove(path)
+        if os.path.exists('./cache/p2p.jpg'):
+            os.remove('./cache/p2p.jpg')
 
         start = time.time()
         file_name = 'p2p.jpg'
