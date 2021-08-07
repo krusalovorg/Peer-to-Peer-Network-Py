@@ -33,6 +33,40 @@ def connect(hostname, port):
 
 
 class Net:
+    def download(self, path):
+        self.start = time.time()
+        self.file_name = '4_ons_black_bg_1920x1080'
+        try:
+            self.r = requests.get(self.path, stream=True, timeout=5)
+        except:
+            return 0
+        self.size = int(self.r.headers.get('Content-Length', 0))
+        with open(self.file_name, 'wb') as self.f:
+            for self.chunk in self.r.iter_content(chunk_size=1024):
+                if self.chunk:
+                    self.f.write(self.chunk)
+
+        self.end = time.time()
+        self.duration = self.end - self.start
+        self.sp = (((self.size * 8) / 1024) / 1024) / self.duration
+        return self.sp
+
+    def upload(self, path):
+        self.start = time.time()
+        self.file_name = '4_ons_black_bg_1920x1080.png'
+        with open(self.file_name, 'rb') as self.f:
+            self.files = {'Upload': (self.file_name, self.f.read())}
+        try:
+            requests.post(self.path, files=self.files)
+        except:
+            return 0
+        self.size = self.os.path.getsize(self.file_name)
+        self.end = self.time.time()
+        self.duration = self.end - self.start
+        self.sp = (((self.size * 8) / 1024) / 1024) / self.duration
+
+        return self.sp
+
     def parse_net(self):
         console.log(colors.YELLOW,"RUN LOCAL NETWORK")
         node_ip = ""

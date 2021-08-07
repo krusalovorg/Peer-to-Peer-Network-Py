@@ -8,6 +8,8 @@ from msvcrt import getch
 
 import json
 
+from Core.Network.net import *
+
 import sys
 # Классы
 
@@ -130,6 +132,7 @@ class console:
         def Header_menu():
             console.log(_OTSTUP,colors.BOLD,f"----------{colors.YELLOW}INFO{colors.ENDC}----------", logTime=False)
             console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Version{colors.ENDC}: {GetVersion()}", logTime=False,indent_len=2)
+            #console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Net{colors.ENDC}: {Net.download('https://xn---35-6cdk1dnenygj.xn--p1ai/img/users/2019/11/4_ons_black_bg_1920x1080.png')}", logTime=False,indent_len=2)
             #console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Y{colors.ENDC}: {_y}", logTime=False,indent_len=2)
             print("\n")
 
