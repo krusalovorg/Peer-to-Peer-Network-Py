@@ -24,30 +24,10 @@ AppVersion = vers.GetVersion()
 
 OfficialVersion = vers.CheckVersion()
 
-
-def download(path):
-    start = time.time()
-    file_name = '4_ons_black_bg_1920x1080.png'
-    try:
-        r = requests.get(path, stream=True, timeout=5)
-    except:
-        return 0
-    size = int(r.headers.get('Content-Length', 0))
-    with open(file_name, 'wb') as f:
-        for chunk in r.iter_content(chunk_size=1024):
-            if chunk:
-                f.write(chunk)
-
-    end = time.time()
-    duration = end - start
-    sp = (((size * 8) / 1024) / 1024) / duration
-    return sp
-
-
 if AppVersion == OfficialVersion:
    console.log(colors.BOLD,f"Version: {AppVersion}", logTime=True, info=True)
-   console.log(download('https://xn---35-6cdk1dnenygj.xn--p1ai/img/users/2019/11/4_ons_black_bg_1920x1080.png'))
-   input('')
+   console.log(Net.download())
+   input()
 else:
     console.log(colors.WARNING, f"Your version: {AppVersion}", logTime=True, info=True)
     console.log(colors.WARNING, f"Official Version: {AppVersion}", logTime=True, info=True)

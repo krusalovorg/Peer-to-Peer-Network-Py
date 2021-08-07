@@ -8,6 +8,11 @@ import socket # Сокеты для работы с сетями
 
 import json # Json для работы с json
 
+import time
+
+import requests
+
+import os
 # Класс
 def connect(hostname, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Создаем сокет
@@ -33,24 +38,25 @@ def connect(hostname, port):
 
 
 class Net:
-    def download(self, path):
-        self.start = time.time()
-        self.file_name = '4_ons_black_bg_1920x1080'
-        try:
-            self.r = requests.get(self.path, stream=True, timeout=5)
+    def download():
+        path = os.path.join('./cache', 'p2p.jpg')
+        os.remove(path)
+
+        start = time.time()
+        file_name = 'p2p.jpg'
+        try: r = requests.get('https://raw.githubusercontent.com/krusalovorg/Peer-to-Peer-Network-Py/main/Core/Network/p2p.jpg',stream=True, timeout=5)
         except:
             return 0
-        self.size = int(self.r.headers.get('Content-Length', 0))
-        with open(self.file_name, 'wb') as self.f:
-            for self.chunk in self.r.iter_content(chunk_size=1024):
-                if self.chunk:
-                    self.f.write(self.chunk)
+        size = int(r.headers.get('Content-Length', 0))
+        with open('./cache/'+file_name, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
 
-        self.end = time.time()
-        self.duration = self.end - self.start
-        self.sp = (((self.size * 8) / 1024) / 1024) / self.duration
-        return self.sp
-
+        end = time.time()
+        duration = end - start
+        sp = (((size * 8) / 1024) / 1024) / duration
+        return sp
     def upload(self, path):
         self.start = time.time()
         self.file_name = '4_ons_black_bg_1920x1080.png'
