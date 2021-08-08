@@ -1,7 +1,5 @@
 # Импортируем библеотеки
 
-from Core.ConsoleStyle.style import * # Стилизация логов
-
 from Core.Config.main import * # Библеотека для работы с конфиг файлом
 
 import socket # Сокеты для работы с сетями
@@ -38,10 +36,12 @@ def connect(hostname, port):
 
 
 class Net:
+    def initialization():
+        os.system("netsh advfirewall firewall add rule name=”P2P NETWORK” dir==allow protocol=UDP localport=3030")
     def clear_cache():
         for root, dirs, files in os.walk('./cache'):
             for filename in files:
-                os.remove('./cache/'+filename)
+                os.remove('./cache/'+str(filename))
                 console.log(colors.WARNING,f"Remove from \"./cache\" file: {filename}")
     def download():
         if os.path.exists('./cache/p2p.jpg'):

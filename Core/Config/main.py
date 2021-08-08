@@ -1,7 +1,5 @@
 # Импортируем библеотеки
 
-from ..ConsoleStyle.style import * # Импортируем функции для работы с консолью
-
 import requests
 
 import json # Импортируем библеотеку для работы с json

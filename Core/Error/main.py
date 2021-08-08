@@ -1,5 +1,3 @@
-from Core.ConsoleStyle.style import *
-
 class p2p(Exception):
     def ip0():
         pass

@@ -1,12 +1,13 @@
 # Импортируем нужные библеотеки
 
-from Core.Client.client import * # Импортируем функции для работы с клиентом пирининговой сети
+from Core.Client.main import * # Импортируем функции для работы с клиентом пирининговой сети
 
-from Core.Command.cmd import * # Импортируем функции для работы с входными данными из консоли
+from Core.Command.main import * # Импортируем функции для работы с входными данными из консоли
 
-from Core.ConsoleStyle.style import * # Импортируем функции для работы с стилями в консоли
+from Core.ConsoleStyle.main import console # Импортируем функции для работы с стилями в консоли
+from Core.ConsoleStyle.main import colors # Импортируем функции для работы с стилями в консоли
 
-from Core.Network.net import * # Импортируем функции для работы с сетями
+from Core.Network.main import * # Импортируем функции для работы с сетями
 
 from node import * # Импортируем функции для запуска трекера узлов
 
@@ -38,15 +39,18 @@ network = console.menu() # Запрашиваем у пользователя т
 
 net = Net() # Вызываем класс Net для работы с сетями
 
+Net.initialization() # Инициализация порта
+
 node_ip = '' # Создаем переменную для хранения айпи адреса трекера узлов
 
 # Выполнение выбранной команды пользователем
 while True:
-    if network == 3:
-        select2 = console.settings()
-        if select2 == 1:
+    if network == 3: # Выбор меню settings
+        select2 = console.settings() # Запуск меню settings
+        if select2 == 1: # Выбор в меню BACK
             network = console.menu()  # Запрашиваем у пользователя тип децентрализованной сети
-        if select2 == 0:
+        if select2 == 0: # В
+            Net.clear_cache()
             network = console.menu()  # Запрашиваем у пользователя тип децентрализованной сети
     if network != 3:
         break
