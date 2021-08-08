@@ -43,7 +43,7 @@ class Client(object):
 
             self.sock.bind(('', 0)) # Задаем сокет как клиент
 
-            self.sock.settimeout(0.3) # Максимальное ожидание ответа трекера узлов
+            self.sock.settimeout(3) # Максимальное ожидание ответа трекера узлов
 
             console.log(f"{colors.YELLOW}Request IP address of client p2p",colors.ENDC) # Уведомление пользователя о запрашивания айпи адресов клиентов сети
 

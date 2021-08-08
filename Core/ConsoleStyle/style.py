@@ -123,13 +123,16 @@ class console:
         except FileNotFoundError:
             return ""
     speed_dowonload = Net.download()
+    ip = requests.get('http://httpbin.org/ip').json()['origin']
     def Header_menu():
         _OTSTUP = 10 * " "
         console.log(_OTSTUP, colors.BOLD, f"----------{colors.YELLOW}INFO{colors.ENDC}----------", logTime=False)
         console.log(_OTSTUP, colors.BOLD, f"{colors.YELLOW}Version{colors.ENDC}: {console.GetVersion()}", logTime=False,
                     indent_len=2)
-        console.log(_OTSTUP, colors.BOLD, f"-----{colors.YELLOW}Internet speed{colors.ENDC}-----", logTime=False)
+        console.log(_OTSTUP, colors.BOLD, f"--------{colors.YELLOW}Internet{colors.ENDC}---------", logTime=False)
         console.log(_OTSTUP, colors.BOLD, f"{colors.BLUE}Dowonload{colors.ENDC}: {console.speed_dowonload}", logTime=False,
+                    indent_len=2)
+        console.log(_OTSTUP, colors.BOLD, f"{colors.BLUE}Ip{colors.ENDC}: {console.ip}", logTime=False,
                     indent_len=2)
         # console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Net{colors.ENDC}: {Net.download('https://xn---35-6cdk1dnenygj.xn--p1ai/img/users/2019/11/4_ons_black_bg_1920x1080.png')}", logTime=False,indent_len=2)
         # console.log(_OTSTUP,colors.BOLD, f"{colors.YELLOW}Y{colors.ENDC}: {_y}", logTime=False,indent_len=2)
