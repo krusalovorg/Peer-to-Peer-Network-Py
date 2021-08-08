@@ -1,8 +1,8 @@
 # Импортируем библеотеки
 
-from ..ConsoleStyle.style import * # Стилизация логов
+from Core.ConsoleStyle.style import * # Стилизация логов
 
-from ..Config.main import * # Библеотека для работы с конфиг файлом
+from Core.Config.main import * # Библеотека для работы с конфиг файлом
 
 import socket # Сокеты для работы с сетями
 
@@ -38,6 +38,11 @@ def connect(hostname, port):
 
 
 class Net:
+    def clear_cache():
+        for root, dirs, files in os.walk('./cache'):
+            for filename in files:
+                os.remove('./cache/'+filename)
+                console.log(colors.WARNING,f"Remove from \"./cache\" file: {filename}")
     def download():
         if os.path.exists('./cache/p2p.jpg'):
             os.remove('./cache/p2p.jpg')

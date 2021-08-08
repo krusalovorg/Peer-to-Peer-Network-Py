@@ -138,7 +138,7 @@ class console:
         _y2 = 0
         _OTSTUP = 10 * " "
         select_color = colors.BLACK_WHITE
-
+        select2 = 0
         print(console.otstup_vert)
         console.Header_menu()
         print(_OTSTUP + "           ")
