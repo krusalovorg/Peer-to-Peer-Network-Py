@@ -1,17 +1,14 @@
 # Импортируем нужные библеотеки
 
-from Core.Client.main import * # Импортируем функции для работы с клиентом пирининговой сети
+from Core.client import * # Импортируем функции для работы с клиентом пирининговой сети
 
-from Core.Command.main import * # Импортируем функции для работы с входными данными из консоли
+from Core.command import * # Импортируем функции для работы с входными данными из консоли
 
-from Core.ConsoleStyle.main import console # Импортируем функции для работы с стилями в консоли
-from Core.ConsoleStyle.main import colors # Импортируем функции для работы с стилями в консоли
-
-from Core.Network.main import * # Импортируем функции для работы с сетями
+from Core.net import Net # Импортируем функции для работы с сетями
 
 from node import * # Импортируем функции для запуска трекера узлов
 
-from Core.Config.main import * # Импортируем функции для работы с конфиг файлом
+from Core.config import * # Импортируем функции для работы с конфиг файлом
 
 # Код
 

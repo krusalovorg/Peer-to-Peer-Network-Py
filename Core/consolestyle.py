@@ -1,6 +1,6 @@
 # Импортируем нужные библеотеки
 
-from Core.Network.main import Net
+from Core.net import *
 
 import time # Импортируем библетеку time
 
@@ -12,7 +12,7 @@ import json
 
 import requests
 
-import sys
+
 # Классы
 
 class colors:

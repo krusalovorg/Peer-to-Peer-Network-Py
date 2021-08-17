@@ -1,10 +1,8 @@
 # Импортируем нужные библеотеки
 
-import time
-
 import _thread
 
-from Core.Node.main import *
+from Core.node import *
 
 # Код
 

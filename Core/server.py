@@ -1,5 +1,5 @@
 # Импортируем нужные библеотеки
-from Core.Config.main import * # Импортируем библеотеку config для работы с конфиг файлом
+from Core.config import * # Импортируем библеотеку config для работы с конфиг файлом
 
 import socket # Импортируем библеотеку socket для работы с сокетами
 
@@ -7,7 +7,6 @@ import _thread # Импортируем библеотеку _thread для ра
 
 import json
 
-from Core.Error.main import *
 
 # Классы
 def add_ip():

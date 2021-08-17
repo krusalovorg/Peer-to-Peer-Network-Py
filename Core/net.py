@@ -1,6 +1,8 @@
 # Импортируем библеотеки
 
-from Core.Config.main import * # Библеотека для работы с конфиг файлом
+from Core.config import * # Библеотека для работы с конфиг файлом
+
+from Core.consolestyle import console
 
 import socket # Сокеты для работы с сетями
 
@@ -37,7 +39,8 @@ def connect(hostname, port):
 
 class Net:
     def initialization():
-        os.system("netsh advfirewall firewall add rule name=”P2P NETWORK” dir==allow protocol=UDP localport=3030")
+        #os.system("netsh advfirewall firewall add rule name=”P2P NETWORK” dir==allow protocol=UDP localport=3030")
+        pass
     def clear_cache():
         for root, dirs, files in os.walk('./cache'):
             for filename in files:
@@ -48,7 +51,7 @@ class Net:
             os.remove('./cache/p2p.jpg')
 
         start = time.time()
-        file_name = 'p2p.jpg'
+        file_name = 'Network/p2p.jpg'
         try: r = requests.get('https://raw.githubusercontent.com/krusalovorg/Peer-to-Peer-Network-Py/main/Core/Network/p2p.jpg',stream=True, timeout=5)
         except:
             return 0

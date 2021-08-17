@@ -2,11 +2,10 @@
 
 import threading # Импортируем библеотеку _thread для работы с потоками
 
-from Core.Server.main import *
+from Core.server import *
 
-from Core.Error.main import *
+from Core.error import *
 
-import sys
 # Переменные по умолчанию
 
 ip = []
