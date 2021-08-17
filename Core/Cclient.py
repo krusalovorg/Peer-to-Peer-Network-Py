@@ -8,8 +8,6 @@ from Core.Cerror import *
 
 # Переменные по умолчанию
 
-ip = []
-
 node = '', 3030 # Данные об узле
 
 # Классы
@@ -40,17 +38,17 @@ class Client(object):
     def p2p_client(self, ip):
         self.p2pc = ip, 3030 # Данные об клиенте p2p для подключения
         # Инициализация сокета
-        console.log("CONNECT TO PEER TO PEER CLIENT!!!!!!!!!!!!!!", ip)
+        console.log("Connect Super-Node!", ip)
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # Создаем сокет
 
         self.sock.bind(('',3031)) # Задаем сокет как клиент
 
-        self.sock.sendto(json.dumps({'test':'test'}).encode(), self.p2pc)
+        self.sock.sendto(json.dumps({'info':'new user'}).encode(), self.p2pc)
 
         self.data, self.addr = self.sock.recvfrom(1024)
 
-        console.log("P2P SEND: ", self.data)
+        console.log("Super-Node send: ", self.data)
 
         self.data = json.loads(self.data.decode())
 
@@ -88,7 +86,7 @@ class Client(object):
                     if self.data["ip"] == 'null':
                         self.sock.close()
                         console.log("Create Peer to Peer Server")
-                        ThreadServer = threading.Thread(target=Server())
+                        ThreadServer = threading.Thread(target=Server)
                         ThreadServer.start()
                     else:
                         self.sock.close()
