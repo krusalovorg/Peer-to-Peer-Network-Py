@@ -125,7 +125,7 @@ def connect(hostname, port):
 
 class Net:
     def initialization():
-        #os.system("netsh advfirewall firewall add rule name=”P2P NETWORK” dir==allow protocol=UDP localport=3030")
+        os.system("netsh interface portproxy add v4tov4 listenport=3030 listenaddress=10.10.1.110 connectport=3030 connectaddress=10.10.1.110")
         pass
     def clear_cache():
         for root, dirs, files in os.walk('./cache'):
