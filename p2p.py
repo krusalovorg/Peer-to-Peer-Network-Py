@@ -22,10 +22,24 @@ from Core.Cserver import *
 
 import time
 
-import os
+import os, ctypes
 
 # Код
 end_pre = ""
+
+
+# def is_admin():
+#     try:
+#         return ctypes.windll.shell32.IsUserAnAdmin()
+#     except:
+#         return False
+# if is_admin():
+#     print("ADMIN")
+# else:
+#     ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable,
+#                                         __file__, None, 1)
+#     exit()
+
 class console:
     otstup_vert = "\n" * 13
     def initialization():

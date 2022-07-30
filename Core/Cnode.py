@@ -48,7 +48,7 @@ class Node(object):
             self.data = json.loads(self.data.decode())
             if self.data.get("inetspeed"):
                 if self.data["inetspeed"] > 5:
-                    if SuperNode < 4:
+                    if len(SuperNode) < 4:
                         print("Send packet {'inetspeed': 'True'} to ", self.addr)
                         self.sock.sendto(json.dumps({'inetspeed': True}).encode(), self.addr)
                     else:
